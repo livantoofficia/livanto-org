@@ -103,54 +103,6 @@ export const Header = () => {
             >
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent side="left" className="w-[88vw] sm:w-[380px] p-0">
-              <div className="flex items-center justify-between p-5 border-b">
-                <Logo />
-              </div>
-              <nav className="flex flex-col py-2">
-                <Link
-                  to="/shop"
-                  className="px-5 py-3 text-sm font-medium hover:bg-secondary"
-                >
-                  Shop All
-                </Link>
-                <div className="px-5 pt-4 pb-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Categories
-                </div>
-                {CATEGORIES.map((c) => (
-                  <Link
-                    key={c.q}
-                    to={`/shop?cat=${c.q}`}
-                    className="px-5 py-2.5 text-sm hover:bg-secondary"
-                  >
-                    {c.label}
-                  </Link>
-                ))}
-                <div className="border-t mt-3 pt-3 flex flex-col">
-                  <Link to="/track-order" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    Track Order
-                  </Link>
-                  <Link to="/contact" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    Contact
-                  </Link>
-                  <Link to="/about" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    About
-                  </Link>
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
-
-          <Logo />
-
-          {/* Mobile menu */}
-          <Sheet>
-            <SheetTrigger
-              className="lg:hidden p-2 -ml-2"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </SheetTrigger>
             <SheetContent
               side="left"
               className="w-[88vw] sm:w-[400px] p-0 border-r-0 bg-[hsl(40_30%_97%)] text-foreground [&>button]:hidden flex flex-col"
