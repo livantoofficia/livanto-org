@@ -17,30 +17,29 @@ const Index = () => (
     <ProductRail
       eyebrow="Most Loved"
       title="Best Sellers"
-      tag="best-seller"
       sortKey="BEST_SELLING"
-      ctaTo="/shop?tag=best-seller"
+      ctaTo="/shop"
     />
     <ProductRail
       eyebrow="Viral Right Now"
       title="Trending Now"
-      tag="trending"
-      ctaTo="/shop?tag=trending"
+      sortKey="BEST_SELLING"
+      reverse
+      ctaTo="/shop"
     />
     <ProductRail
       eyebrow="Smart Buys"
       title="Premium Picks Under ₹499"
-      tag="under-499"
-      ctaTo="/shop?tag=under-499"
+      query="variants.price:<=499"
+      ctaTo="/shop"
     />
     <FlashSale />
     <ProductRail
       eyebrow="Just In"
       title="New Arrivals"
-      tag="new-arrival"
       sortKey="CREATED_AT"
       reverse
-      ctaTo="/shop?tag=new-arrival"
+      ctaTo="/shop"
     />
     <BundleDeals />
     <WhyChoose />

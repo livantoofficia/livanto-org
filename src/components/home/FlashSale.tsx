@@ -20,7 +20,12 @@ export const FlashSale = () => {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
+    // Try flash-sale tagged first, then fall back to any best-selling products
     fetchProducts({ first: 8, query: "tag:flash-sale" })
+      .then(async (res) => {
+        if (res.length > 0) return res;
+        return fetchProducts({ first: 8, sortKey: "BEST_SELLING" });
+      })
       .then(setProducts)
       .finally(() => setLoading(false));
   }, []);
