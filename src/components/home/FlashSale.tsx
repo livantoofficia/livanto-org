@@ -43,14 +43,14 @@ export const FlashSale = () => {
   if (!loading && products.length === 0) return null;
 
   return (
-    <section className="py-14 lg:py-20 bg-foreground text-background">
+    <section className="py-10 lg:py-20 bg-foreground text-background">
       <div className="container-luxe">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-8 lg:mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 sm:gap-5 mb-6 lg:mb-12">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.3em] text-accent mb-2 flex items-center gap-2">
+            <p className="text-[10px] lg:text-[11px] uppercase tracking-[0.3em] text-accent mb-1.5 lg:mb-2 flex items-center gap-2">
               <Flame className="h-3.5 w-3.5" /> Flash Sale
             </p>
-            <h2 className="font-display text-3xl lg:text-4xl">Today only — premium picks at up to 50% off</h2>
+            <h2 className="font-display text-2xl lg:text-4xl">Today only — up to 50% off</h2>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-[10px] uppercase tracking-wider text-background/60">Ends in</span>
@@ -77,15 +77,27 @@ export const FlashSale = () => {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 [&_.product-card-hover]:bg-background [&_.product-card-hover]:text-foreground">
+            {/* Mobile carousel */}
+            <div className="lg:hidden -mx-4 sm:-mx-6">
+              <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4 sm:px-6 pb-2 [&_.product-card-hover]:bg-background [&_.product-card-hover]:text-foreground">
+                {products.slice(0, 6).map((p) => (
+                  <div key={p.node.id} className="snap-start shrink-0 w-[44%] sm:w-[32%]">
+                    <ProductCard product={p} />
+                  </div>
+                ))}
+                <div className="shrink-0 w-1" aria-hidden />
+              </div>
+            </div>
+            {/* Desktop grid */}
+            <div className="hidden lg:grid grid-cols-3 lg:grid-cols-4 gap-6 [&_.product-card-hover]:bg-background [&_.product-card-hover]:text-foreground">
               {products.slice(0, 4).map((p) => (
                 <ProductCard key={p.node.id} product={p} />
               ))}
             </div>
-            <div className="text-center mt-8">
+            <div className="text-center mt-6 lg:mt-8">
               <Link
                 to="/shop?tag=flash-sale"
-                className="inline-block border border-accent text-accent px-8 h-12 leading-[3rem] text-xs uppercase tracking-wider hover:bg-accent hover:text-accent-foreground transition"
+                className="inline-block border border-accent text-accent px-7 lg:px-8 h-11 lg:h-12 leading-[2.75rem] lg:leading-[3rem] text-[11px] lg:text-xs uppercase tracking-wider hover:bg-accent hover:text-accent-foreground transition"
               >
                 Shop the Flash Sale →
               </Link>
