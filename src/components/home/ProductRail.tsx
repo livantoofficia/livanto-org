@@ -11,6 +11,11 @@ interface Props {
   reverse?: boolean;
   ctaTo?: string;
   first?: number;
+  /**
+   * Filter to products with this Shopify tag (e.g. 'flash-sale', 'under-499', 'bundle').
+   * Combined with `query` if both are provided.
+   */
+  tag?: string;
 }
 
 export const ProductRail = ({
@@ -21,16 +26,19 @@ export const ProductRail = ({
   reverse,
   ctaTo = "/shop",
   first = 8,
+  tag,
 }: Props) => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const finalQuery = [tag ? `tag:${tag}` : null, query].filter(Boolean).join(" ") || undefined;
+
   useEffect(() => {
-    fetchProducts({ first, query, sortKey, reverse })
+    fetchProducts({ first, query: finalQuery, sortKey, reverse })
       .then(setProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
-  }, [first, query, sortKey, reverse]);
+  }, [first, finalQuery, sortKey, reverse]);
 
   return (
     <section className="py-14 lg:py-20">
@@ -46,7 +54,7 @@ export const ProductRail = ({
           </div>
           <Link
             to={ctaTo}
-            className="text-xs uppercase tracking-wider hover:text-accent border-b border-foreground hover:border-accent pb-0.5 transition"
+            className="text-xs uppercase tracking-wider hover:text-accent border-b border-foreground hover:border-accent pb-0.5 transition whitespace-nowrap"
           >
             View all →
           </Link>

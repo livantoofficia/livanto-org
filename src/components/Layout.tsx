@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { useCartSync } from "@/hooks/useCartSync";
 
 export const Layout = () => {
@@ -11,13 +12,14 @@ export const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-[60px] lg:pb-0">
         <Outlet />
       </main>
       <Footer />
       <CartDrawer />
       <MobileBottomNav />
       <WhatsAppFloat />
+      <ExitIntentPopup />
     </div>
   );
 };
