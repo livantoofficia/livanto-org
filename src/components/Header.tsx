@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, User, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { CartButton } from "@/components/CartButton";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -14,8 +15,7 @@ const CATEGORIES = [
   { label: "Car & Bike", q: "car" },
   { label: "Garden & Balcony", q: "garden" },
   { label: "Electronics", q: "electronics" },
-  { label: "Trending", q: "trending" },
-  { label: "Gifts", q: "gifts" },
+  { label: "Trending Deals", q: "trending" },
 ];
 
 export const Header = () => {
@@ -42,14 +42,7 @@ export const Header = () => {
 
   return (
     <>
-      {/* Announcement bar */}
-      <div className="bg-primary text-primary-foreground text-[11px] sm:text-xs">
-        <div className="container-luxe flex items-center justify-center gap-6 py-2 overflow-hidden">
-          <span className="hidden sm:inline">✦ Free shipping on orders ₹499+</span>
-          <span>Cash on Delivery available</span>
-          <span className="hidden sm:inline">✦ Easy 7-day returns</span>
-        </div>
-      </div>
+      <AnnouncementBar />
 
       <header
         className={`sticky top-0 z-40 w-full bg-background/90 backdrop-blur-md transition-all ${
