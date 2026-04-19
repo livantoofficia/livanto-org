@@ -1,21 +1,66 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Heart, User, Menu, X } from "lucide-react";
+import {
+  Search,
+  Heart,
+  User,
+  Menu,
+  X,
+  ShoppingBag,
+  Sparkles,
+  Flame,
+  Tag,
+  TrendingUp,
+  UtensilsCrossed,
+  Home,
+  Sparkle,
+  Dumbbell,
+  Car,
+  Leaf,
+  Plug,
+  Truck,
+  MessageCircle,
+  HelpCircle,
+  Info,
+  Wallet,
+  ChevronRight,
+} from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { CartButton } from "@/components/CartButton";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 
 const CATEGORIES = [
-  { label: "Kitchen & Dining", q: "kitchen" },
-  { label: "Home Essentials", q: "home" },
-  { label: "Personal Care", q: "personal" },
-  { label: "Fitness & Wellness", q: "fitness" },
-  { label: "Car & Bike", q: "car" },
-  { label: "Garden & Balcony", q: "garden" },
-  { label: "Electronics", q: "electronics" },
-  { label: "Trending Deals", q: "trending" },
+  { label: "Kitchen & Dining", q: "kitchen", Icon: UtensilsCrossed },
+  { label: "Home Essentials", q: "home", Icon: Home },
+  { label: "Personal Care", q: "personal", Icon: Sparkle },
+  { label: "Fitness & Wellness", q: "fitness", Icon: Dumbbell },
+  { label: "Car & Bike", q: "car", Icon: Car },
+  { label: "Garden & Balcony", q: "garden", Icon: Leaf },
+  { label: "Electronics", q: "electronics", Icon: Plug },
+  { label: "Trending Deals", q: "trending", Icon: Flame },
+];
+
+const SHOP_LINKS = [
+  { label: "Shop All", to: "/shop", Icon: ShoppingBag },
+  { label: "New Arrivals", to: "/shop?tag=new", Icon: Sparkles },
+  { label: "Best Sellers", to: "/shop?tag=best-seller", Icon: Flame },
+  { label: "Under ₹499", to: "/shop?tag=under-499", Icon: Tag },
+  { label: "Trending Now", to: "/shop?tag=trending", Icon: TrendingUp },
+];
+
+const HELP_LINKS = [
+  { label: "Track Order", to: "/track-order", Icon: Truck },
+  { label: "Contact Us", to: "/contact", Icon: MessageCircle },
+  { label: "FAQ", to: "/faq", Icon: HelpCircle },
+  { label: "About Us", to: "/about", Icon: Info },
+];
+
+const ACCOUNT_LINKS = [
+  { label: "My Account", to: "/account", Icon: User },
+  { label: "Wishlist", to: "/wishlist", Icon: Heart },
+  { label: "Wallet", to: "/account", Icon: Wallet },
 ];
 
 export const Header = () => {
