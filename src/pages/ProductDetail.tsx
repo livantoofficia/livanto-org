@@ -373,6 +373,10 @@ const ProductDetail = () => {
           </Button>
         </div>
       </div>
+
+      {/* Related + recently viewed */}
+      <RelatedProducts productType={product.productType} excludeId={product.id} />
+      <RecentlyViewed excludeHandle={product.handle} />
     </>
   );
 };
