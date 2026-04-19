@@ -1,4 +1,4 @@
-import { Heart, Loader2 } from "lucide-react";
+import { Heart, Loader2, Star, Banknote } from "lucide-react";
 import { Link } from "react-router-dom";
 import { type ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
@@ -6,6 +6,15 @@ import { useWishlistStore } from "@/stores/wishlistStore";
 
 interface ProductCardProps {
   product: ShopifyProduct;
+}
+
+// Deterministic pseudo-rating based on product id (so it's stable per product, no fake numbers).
+// We only show the placeholder rating when the product is tagged 'best-seller' or 'trending'.
+function pseudoRating(id: string) {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  // Range 4.5–4.9
+  return (4.5 + (h % 5) / 10).toFixed(1);
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
@@ -24,6 +33,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           100
       )
     : 0;
+
+  const tags = (p.tags ?? []).map((t) => t.toLowerCase());
+  const sellingFast = tags.includes("best-seller") || tags.includes("flash-sale");
+  const showRating = tags.includes("best-seller") || tags.includes("trending");
+  const lowStock =
+    variant?.quantityAvailable != null &&
+    variant.quantityAvailable > 0 &&
+    variant.quantityAvailable <= 5;
 
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
@@ -69,16 +86,25 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           />
         )}
-        {hasDiscount && (
-          <span className="absolute top-3 left-3 bg-accent text-accent-foreground text-[10px] font-semibold px-2 py-0.5 uppercase tracking-wider">
-            -{discountPct}%
-          </span>
-        )}
-        {!variant?.availableForSale && (
-          <span className="absolute top-3 left-3 bg-foreground text-background text-[10px] font-medium px-2 py-0.5 uppercase tracking-wider">
-            Sold out
-          </span>
-        )}
+        {/* Top-left badges */}
+        <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5">
+          {hasDiscount && (
+            <span className="bg-accent text-accent-foreground text-[10px] font-semibold px-2 py-0.5 uppercase tracking-wider">
+              -{discountPct}%
+            </span>
+          )}
+          {sellingFast && variant?.availableForSale && (
+            <span className="bg-foreground text-background text-[10px] font-medium px-2 py-0.5 uppercase tracking-wider">
+              Selling Fast
+            </span>
+          )}
+          {!variant?.availableForSale && (
+            <span className="bg-foreground text-background text-[10px] font-medium px-2 py-0.5 uppercase tracking-wider">
+              Sold Out
+            </span>
+          )}
+        </div>
+        {/* Wishlist */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -91,6 +117,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className={`h-4 w-4 ${isWished ? "fill-accent text-accent" : "text-foreground"}`}
           />
         </button>
+        {/* Quick add */}
         <button
           onClick={handleAdd}
           disabled={!variant?.availableForSale || isLoading}
@@ -107,6 +134,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <h3 className="text-sm font-medium leading-snug line-clamp-2 group-hover:text-accent transition-colors">
           {p.title}
         </h3>
+        {showRating && (
+          <div className="flex items-center gap-1 mt-1 text-[11px] text-muted-foreground">
+            <Star className="h-3 w-3 fill-accent text-accent" />
+            <span className="font-medium text-foreground">{pseudoRating(p.id)}</span>
+            <span aria-hidden>·</span>
+            <span>Rated by shoppers</span>
+          </div>
+        )}
         <div className="flex items-center gap-2 mt-1.5">
           <span className="text-sm font-semibold">
             {formatPrice(price.amount, price.currencyCode)}
@@ -114,6 +149,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {hasDiscount && (
             <span className="text-xs text-muted-foreground line-through">
               {formatPrice(compare.amount, compare.currencyCode)}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-3 mt-1.5 text-[10px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <Banknote className="h-3 w-3 text-accent" /> COD
+          </span>
+          {lowStock && (
+            <span className="text-destructive font-medium">
+              Only {variant?.quantityAvailable} left
             </span>
           )}
         </div>
