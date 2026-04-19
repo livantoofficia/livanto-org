@@ -20,14 +20,44 @@ const cats = [
 ];
 
 export const Categories = () => (
-  <section className="py-16 lg:py-24">
+  <section className="py-10 lg:py-24">
     <div className="container-luxe">
-      <div className="text-center mb-10 lg:mb-14">
+      <div className="text-center mb-6 lg:mb-14">
         <p className="text-[11px] uppercase tracking-[0.3em] text-accent mb-3">✦ Explore</p>
-        <h2 className="font-display text-4xl lg:text-5xl">Shop by Category</h2>
-        <div className="gold-divider mx-auto mt-5" />
+        <h2 className="font-display text-3xl lg:text-5xl">Shop by Category</h2>
+        <div className="gold-divider mx-auto mt-4 lg:mt-5" />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+
+      {/* Mobile: horizontal swipe carousel */}
+      <div className="lg:hidden -mx-4 sm:-mx-6">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-4 sm:px-6 pb-2">
+          {cats.map((c) => (
+            <Link
+              key={c.q}
+              to={`/shop?cat=${c.q}`}
+              className="group relative shrink-0 snap-start w-[38%] sm:w-[28%] aspect-[3/4] overflow-hidden rounded-xl bg-secondary shadow-sm"
+            >
+              <img
+                src={c.img}
+                alt={c.label}
+                loading="lazy"
+                width={300}
+                height={400}
+                className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-3">
+                <p className="text-background text-[13px] font-medium leading-tight">
+                  {c.label}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: full grid */}
+      <div className="hidden lg:grid grid-cols-4 gap-4">
         {cats.map((c) => (
           <Link
             key={c.q}
@@ -44,7 +74,7 @@ export const Categories = () => (
             />
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/15 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-4">
-              <p className="text-background text-sm sm:text-base font-medium leading-tight">
+              <p className="text-background text-base font-medium leading-tight">
                 {c.label}
               </p>
               <p className="text-background/70 text-[10px] uppercase tracking-wider mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
