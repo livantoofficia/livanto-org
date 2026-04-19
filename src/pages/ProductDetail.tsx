@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/accordion";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useRecentlyViewedStore } from "@/stores/recentlyViewedStore";
+import { RelatedProducts } from "@/components/RelatedProducts";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
 import {
   Heart,
   Truck,
@@ -24,6 +27,7 @@ import {
   Minus,
   Plus,
   ChevronRight,
+  Flame,
 } from "lucide-react";
 
 const ProductDetail = () => {
@@ -39,10 +43,13 @@ const ProductDetail = () => {
   const setOpen = useCartStore((s) => s.setOpen);
   const toggleWish = useWishlistStore((s) => s.toggle);
   const isWished = useWishlistStore((s) => (product ? s.has(product.id) : false));
+  const trackRecent = useRecentlyViewedStore((s) => s.add);
 
   useEffect(() => {
     if (!handle) return;
     setLoading(true);
+    setActiveImg(0);
+    window.scrollTo({ top: 0 });
     fetchProductByHandle(handle)
       .then((p) => {
         setProduct(p);
@@ -50,10 +57,11 @@ const ProductDetail = () => {
           const initial: Record<string, string> = {};
           p.options.forEach((o) => (initial[o.name] = o.values[0]));
           setSelectedOptions(initial);
+          trackRecent(p.handle);
         }
       })
       .finally(() => setLoading(false));
-  }, [handle]);
+  }, [handle, trackRecent]);
 
   if (loading) {
     return (

@@ -22,9 +22,31 @@ const SORTS: Record<
   title: { label: "Alphabetical", sortKey: "TITLE" },
 };
 
+// Map URL "cat" slugs to Shopify product_type values for accurate filtering.
+const CAT_TO_TYPE: Record<string, string> = {
+  kitchen: "Kitchen & Dining",
+  home: "Home Essentials",
+  personal: "Personal Care",
+  fitness: "Fitness & Wellness",
+  car: "Car & Bike",
+  garden: "Garden & Balcony",
+  electronics: "Electronics Accessories",
+};
+
+const TAG_LABELS: Record<string, string> = {
+  "best-seller": "Best Sellers",
+  trending: "Trending Deals",
+  "flash-sale": "Flash Sale",
+  "under-499": "Under ₹499",
+  "new-arrival": "New Arrivals",
+  bundle: "Bundle & Save",
+  gift: "Gifts",
+};
+
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const cat = searchParams.get("cat") ?? "";
+  const tag = searchParams.get("tag") ?? "";
   const q = searchParams.get("q") ?? "";
   const sort = searchParams.get("sort") ?? "trending";
 
@@ -35,9 +57,13 @@ const Shop = () => {
   const queryStr = useMemo(() => {
     const parts: string[] = [];
     if (q) parts.push(q);
-    if (cat) parts.push(cat); // looks for cat in title/tags/type
+    if (tag) parts.push(`tag:${tag}`);
+    if (cat) {
+      const type = CAT_TO_TYPE[cat];
+      parts.push(type ? `product_type:"${type}"` : cat);
+    }
     return parts.join(" ") || undefined;
-  }, [q, cat]);
+  }, [q, cat, tag]);
 
   useEffect(() => {
     setLoading(true);
@@ -56,8 +82,7 @@ const Shop = () => {
   const filtered = useMemo(() => {
     if (!maxPrice) return products;
     return products.filter(
-      (p) =>
-        parseFloat(p.node.priceRange.minVariantPrice.amount) <= maxPrice
+      (p) => parseFloat(p.node.priceRange.minVariantPrice.amount) <= maxPrice
     );
   }, [products, maxPrice]);
 
@@ -69,8 +94,10 @@ const Shop = () => {
 
   const title = q
     ? `Search: "${q}"`
+    : tag
+    ? TAG_LABELS[tag] ?? tag
     : cat
-    ? cat[0].toUpperCase() + cat.slice(1)
+    ? CAT_TO_TYPE[cat] ?? cat[0].toUpperCase() + cat.slice(1)
     : "All Products";
 
   return (
