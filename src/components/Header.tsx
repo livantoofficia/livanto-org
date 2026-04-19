@@ -66,7 +66,7 @@ const ACCOUNT_LINKS = [
 type MenuItem = {
   label: string;
   to: string;
-  Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  Icon: LucideIcon;
 };
 
 const MenuSection = ({ title, items }: { title: string; items: MenuItem[] }) => (
