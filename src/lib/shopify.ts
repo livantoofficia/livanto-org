@@ -89,9 +89,8 @@ const PRODUCT_FIELDS = `
         title
         price { amount currencyCode }
         compareAtPrice { amount currencyCode }
-        availableForSale
-        quantityAvailable
-        selectedOptions { name value }
+          availableForSale
+          selectedOptions { name value }
       }
     }
   }
