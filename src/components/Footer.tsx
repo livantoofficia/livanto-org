@@ -25,14 +25,14 @@ export const Footer = () => (
           essentials for the modern home. Made with care. Delivered with trust.
         </p>
         <div className="flex items-center gap-3 pt-2">
-          <a aria-label="Instagram" href="#" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
+          <a aria-label="Instagram" href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
             <Instagram className="h-4 w-4" />
           </a>
-          <a aria-label="Facebook" href="#" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
+          <a aria-label="Facebook" href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
             <Facebook className="h-4 w-4" />
           </a>
-          <a aria-label="Twitter" href="#" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
-            <Twitter className="h-4 w-4" />
+          <a aria-label="Pinterest" href={SOCIAL_LINKS.pinterest} target="_blank" rel="noopener noreferrer" className="p-2 border border-primary-foreground/20 hover:bg-accent hover:border-accent hover:text-accent-foreground transition-colors">
+            <PinterestIcon className="h-4 w-4" />
           </a>
         </div>
       </div>
