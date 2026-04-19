@@ -15,34 +15,39 @@ const Index = () => (
     <Hero />
     <TrustStrip />
     <Categories />
+    {/* Best Sellers — mobile horizontal swipe carousel */}
     <ProductRail
       eyebrow="Most Loved"
       title="Best Sellers"
       sortKey="BEST_SELLING"
       ctaTo="/shop"
+      first={8}
+      layout="carousel"
     />
+    {/* Trending Now — 2-col grid, max 6 */}
     <ProductRail
       eyebrow="Viral Right Now"
       title="Trending Now"
       sortKey="BEST_SELLING"
       reverse
       ctaTo="/shop"
+      first={6}
+      layout="grid"
     />
     <WatchAndShop />
-    <ProductRail
-      eyebrow="Smart Buys"
-      title="Premium Picks Under ₹499"
-      query="variants.price:<=499"
-      ctaTo="/shop"
-    />
+    {/* Flash Sale — mobile carousel */}
     <FlashSale />
+    {/* New Arrivals — 2-col grid */}
     <ProductRail
       eyebrow="Just In"
       title="New Arrivals"
       sortKey="CREATED_AT"
       reverse
       ctaTo="/shop"
+      first={6}
+      layout="grid"
     />
+    {/* Bundle Offers — featured full-width card */}
     <BundleDeals />
     <WhyChoose />
     <ReviewsSection />
