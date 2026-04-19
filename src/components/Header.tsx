@@ -1,22 +1,104 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Heart, User, Menu, X } from "lucide-react";
+import {
+  Search,
+  Heart,
+  User,
+  Menu,
+  X,
+  ShoppingBag,
+  Sparkles,
+  Flame,
+  Tag,
+  TrendingUp,
+  UtensilsCrossed,
+  Home,
+  Sparkle,
+  Dumbbell,
+  Car,
+  Leaf,
+  Plug,
+  Truck,
+  MessageCircle,
+  HelpCircle,
+  Info,
+  Wallet,
+  ChevronRight,
+  type LucideIcon,
+} from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { CartButton } from "@/components/CartButton";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 
 const CATEGORIES = [
-  { label: "Kitchen & Dining", q: "kitchen" },
-  { label: "Home Essentials", q: "home" },
-  { label: "Personal Care", q: "personal" },
-  { label: "Fitness & Wellness", q: "fitness" },
-  { label: "Car & Bike", q: "car" },
-  { label: "Garden & Balcony", q: "garden" },
-  { label: "Electronics", q: "electronics" },
-  { label: "Trending Deals", q: "trending" },
+  { label: "Kitchen & Dining", q: "kitchen", Icon: UtensilsCrossed },
+  { label: "Home Essentials", q: "home", Icon: Home },
+  { label: "Personal Care", q: "personal", Icon: Sparkle },
+  { label: "Fitness & Wellness", q: "fitness", Icon: Dumbbell },
+  { label: "Car & Bike", q: "car", Icon: Car },
+  { label: "Garden & Balcony", q: "garden", Icon: Leaf },
+  { label: "Electronics", q: "electronics", Icon: Plug },
+  { label: "Trending Deals", q: "trending", Icon: Flame },
 ];
+
+const SHOP_LINKS = [
+  { label: "Shop All", to: "/shop", Icon: ShoppingBag },
+  { label: "New Arrivals", to: "/shop?tag=new", Icon: Sparkles },
+  { label: "Best Sellers", to: "/shop?tag=best-seller", Icon: Flame },
+  { label: "Under ₹499", to: "/shop?tag=under-499", Icon: Tag },
+  { label: "Trending Now", to: "/shop?tag=trending", Icon: TrendingUp },
+];
+
+const HELP_LINKS = [
+  { label: "Track Order", to: "/track-order", Icon: Truck },
+  { label: "Contact Us", to: "/contact", Icon: MessageCircle },
+  { label: "FAQ", to: "/faq", Icon: HelpCircle },
+  { label: "About Us", to: "/about", Icon: Info },
+];
+
+const ACCOUNT_LINKS = [
+  { label: "My Account", to: "/account", Icon: User },
+  { label: "Wishlist", to: "/wishlist", Icon: Heart },
+  { label: "Wallet", to: "/account", Icon: Wallet },
+];
+
+type MenuItem = {
+  label: string;
+  to: string;
+  Icon: LucideIcon;
+};
+
+const MenuSection = ({ title, items }: { title: string; items: MenuItem[] }) => (
+  <div>
+    <div className="text-[10px] tracking-[0.32em] uppercase text-[hsl(43_55%_42%)] font-medium mb-3">
+      {title}
+    </div>
+    <ul className="space-y-0.5">
+      {items.map(({ label, to, Icon }) => (
+        <li key={label}>
+          <SheetClose asChild>
+            <Link
+              to={to}
+              className="group flex items-center gap-3.5 py-2.5 text-[15px] text-foreground/85 hover:text-foreground transition-colors"
+            >
+              <Icon
+                className="h-[18px] w-[18px] text-foreground/60 group-hover:text-[hsl(43_55%_42%)] transition-colors"
+                strokeWidth={1.5}
+              />
+              <span className="flex-1 font-light tracking-wide">{label}</span>
+              <ChevronRight
+                className="h-3.5 w-3.5 text-foreground/25 group-hover:text-[hsl(43_55%_42%)] group-hover:translate-x-0.5 transition-all"
+                strokeWidth={1.5}
+              />
+            </Link>
+          </SheetClose>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export const Header = () => {
   const wishCount = useWishlistStore((s) => s.ids.length);
@@ -58,41 +140,56 @@ export const Header = () => {
             >
               <Menu className="h-5 w-5" />
             </SheetTrigger>
-            <SheetContent side="left" className="w-[88vw] sm:w-[380px] p-0">
-              <div className="flex items-center justify-between p-5 border-b">
-                <Logo />
-              </div>
-              <nav className="flex flex-col py-2">
-                <Link
-                  to="/shop"
-                  className="px-5 py-3 text-sm font-medium hover:bg-secondary"
+            <SheetContent
+              side="left"
+              className="w-[88vw] sm:w-[400px] p-0 border-r-0 bg-[hsl(40_30%_97%)] text-foreground [&>button]:hidden flex flex-col"
+            >
+              {/* Header */}
+              <div className="px-6 pt-6 pb-5 flex items-start justify-between border-b border-foreground/10">
+                <div>
+                  <SheetClose asChild>
+                    <Link to="/" className="block">
+                      <span className="font-display text-2xl tracking-[0.18em] text-foreground">
+                        LIVANTO
+                      </span>
+                    </Link>
+                  </SheetClose>
+                  <p className="mt-1.5 text-[11px] tracking-[0.15em] uppercase text-foreground/55 font-light">
+                    Modern essentials, curated.
+                  </p>
+                </div>
+                <SheetClose
+                  aria-label="Close menu"
+                  className="h-9 w-9 rounded-full border border-foreground/15 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors shrink-0"
                 >
-                  Shop All
-                </Link>
-                <div className="px-5 pt-4 pb-2 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Categories
-                </div>
-                {CATEGORIES.map((c) => (
-                  <Link
-                    key={c.q}
-                    to={`/shop?cat=${c.q}`}
-                    className="px-5 py-2.5 text-sm hover:bg-secondary"
-                  >
-                    {c.label}
-                  </Link>
-                ))}
-                <div className="border-t mt-3 pt-3 flex flex-col">
-                  <Link to="/track-order" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    Track Order
-                  </Link>
-                  <Link to="/contact" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    Contact
-                  </Link>
-                  <Link to="/about" className="px-5 py-2.5 text-sm hover:bg-secondary">
-                    About
-                  </Link>
-                </div>
+                  <X className="h-4 w-4" strokeWidth={1.5} />
+                </SheetClose>
+              </div>
+
+              {/* Body */}
+              <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-7">
+                <MenuSection title="Shop" items={SHOP_LINKS} />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection
+                  title="Categories"
+                  items={CATEGORIES.map((c) => ({
+                    label: c.label,
+                    to: `/shop?cat=${c.q}`,
+                    Icon: c.Icon,
+                  }))}
+                />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection title="Help" items={HELP_LINKS} />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection title="Account" items={ACCOUNT_LINKS} />
               </nav>
+
+              {/* Footer */}
+              <div className="px-6 py-5 border-t border-foreground/10 text-center">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/40">
+                  Crafted in India
+                </p>
+              </div>
             </SheetContent>
           </Sheet>
 
