@@ -24,6 +24,9 @@ import {
   Info,
   Wallet,
   ChevronRight,
+  Instagram,
+  Facebook,
+  Mail,
   type LucideIcon,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
