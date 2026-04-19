@@ -105,10 +105,7 @@ const ProductDetail = () => {
       )
     : 0;
 
-  const lowStock =
-    variant?.quantityAvailable != null &&
-    variant.quantityAvailable > 0 &&
-    variant.quantityAvailable <= 5;
+  const lowStock = false;
 
   const handleAdd = async (buyNow = false) => {
     if (!variant) return;
@@ -259,9 +256,7 @@ const ProductDetail = () => {
               </button>
             </div>
             {lowStock && (
-              <span className="text-xs text-destructive font-medium">
-                Only {variant?.quantityAvailable} left
-              </span>
+              <span className="text-xs text-destructive font-medium">Selling fast</span>
             )}
           </div>
 
