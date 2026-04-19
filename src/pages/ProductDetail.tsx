@@ -211,6 +211,13 @@ const ProductDetail = () => {
             Inclusive of all taxes · Free shipping ₹499+
           </p>
 
+          {(product.tags ?? []).map((t) => t.toLowerCase()).includes("flash-sale") && (
+            <div className="flex items-center gap-2 text-xs bg-accent/10 border border-accent/30 px-3 py-2">
+              <Flame className="h-3.5 w-3.5 text-accent" />
+              <span className="font-medium">Selling fast — flash sale ends tonight</span>
+            </div>
+          )}
+
           {/* Options */}
           {product.options.map((opt) =>
             opt.values.length <= 1 && opt.values[0] === "Default Title" ? null : (
