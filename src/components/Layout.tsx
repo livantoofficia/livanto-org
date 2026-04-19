@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { AIChatWidget } from "@/components/AIChatWidget";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { useCartSync } from "@/hooks/useCartSync";
 
@@ -18,7 +18,7 @@ export const Layout = () => {
       <Footer />
       <CartDrawer />
       <MobileBottomNav />
-      <WhatsAppFloat />
+      <AIChatWidget />
       <ExitIntentPopup />
     </div>
   );
