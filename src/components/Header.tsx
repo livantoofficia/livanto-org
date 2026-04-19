@@ -143,6 +143,69 @@ export const Header = () => {
 
           <Logo />
 
+          {/* Mobile menu */}
+          <Sheet>
+            <SheetTrigger
+              className="lg:hidden p-2 -ml-2"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="w-[88vw] sm:w-[400px] p-0 border-r-0 bg-[hsl(40_30%_97%)] text-foreground [&>button]:hidden flex flex-col"
+            >
+              {/* Header */}
+              <div className="px-6 pt-6 pb-5 flex items-start justify-between border-b border-foreground/10">
+                <div>
+                  <SheetClose asChild>
+                    <Link to="/" className="block">
+                      <span className="font-display text-2xl tracking-[0.18em] text-foreground">
+                        LIVANTO
+                      </span>
+                    </Link>
+                  </SheetClose>
+                  <p className="mt-1.5 text-[11px] tracking-[0.15em] uppercase text-foreground/55 font-light">
+                    Modern essentials, curated.
+                  </p>
+                </div>
+                <SheetClose
+                  aria-label="Close menu"
+                  className="h-9 w-9 rounded-full border border-foreground/15 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors shrink-0"
+                >
+                  <X className="h-4 w-4" strokeWidth={1.5} />
+                </SheetClose>
+              </div>
+
+              {/* Body */}
+              <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-7">
+                <MenuSection title="Shop" items={SHOP_LINKS} />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection
+                  title="Categories"
+                  items={CATEGORIES.map((c) => ({
+                    label: c.label,
+                    to: `/shop?cat=${c.q}`,
+                    Icon: c.Icon,
+                  }))}
+                />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection title="Help" items={HELP_LINKS} />
+                <div className="h-px bg-foreground/10" />
+                <MenuSection title="Account" items={ACCOUNT_LINKS} />
+              </nav>
+
+              {/* Footer */}
+              <div className="px-6 py-5 border-t border-foreground/10 text-center">
+                <p className="text-[10px] tracking-[0.3em] uppercase text-foreground/40">
+                  Crafted in India
+                </p>
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          <Logo />
+
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-7 text-sm">
             <Link to="/shop" className="hover:text-accent transition-colors">
