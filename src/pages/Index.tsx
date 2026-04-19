@@ -30,6 +30,7 @@ const Index = () => (
     />
     <WatchAndShop />
     <ProductRail
+      eyebrow="Smart Buys"
       title="Premium Picks Under ₹499"
       query="variants.price:<=499"
       ctaTo="/shop"
