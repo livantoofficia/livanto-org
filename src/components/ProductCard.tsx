@@ -37,10 +37,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const tags = (p.tags ?? []).map((t) => t.toLowerCase());
   const sellingFast = tags.includes("best-seller") || tags.includes("flash-sale");
   const showRating = tags.includes("best-seller") || tags.includes("trending");
-  const lowStock =
-    variant?.quantityAvailable != null &&
-    variant.quantityAvailable > 0 &&
-    variant.quantityAvailable <= 5;
+  const lowStock = false;
 
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
@@ -157,9 +154,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <Banknote className="h-3 w-3 text-accent" /> COD
           </span>
           {lowStock && (
-            <span className="text-destructive font-medium">
-              Only {variant?.quantityAvailable} left
-            </span>
+            <span className="text-destructive font-medium">Selling fast</span>
           )}
         </div>
       </div>
