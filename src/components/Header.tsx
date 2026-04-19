@@ -24,6 +24,7 @@ import {
   Info,
   Wallet,
   ChevronRight,
+  type LucideIcon,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { CartButton } from "@/components/CartButton";
