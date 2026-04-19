@@ -62,7 +62,7 @@ export const Footer = () => (
           <li><Link to="/about" className="hover:text-accent">About</Link></li>
           <li><Link to="/privacy-policy" className="hover:text-accent">Privacy</Link></li>
           <li><Link to="/terms" className="hover:text-accent">Terms</Link></li>
-          <li><a href="mailto:hello@livanto.in" className="hover:text-accent inline-flex items-center gap-1.5"><Mail className="h-3 w-3" />hello@livanto.in</a></li>
+          <li><a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-accent inline-flex items-center gap-1.5"><Mail className="h-3 w-3" />{CONTACT_EMAIL}</a></li>
         </ul>
       </div>
     </div>
