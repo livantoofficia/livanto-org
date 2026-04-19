@@ -63,6 +63,42 @@ const ACCOUNT_LINKS = [
   { label: "Wallet", to: "/account", Icon: Wallet },
 ];
 
+type MenuItem = {
+  label: string;
+  to: string;
+  Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+};
+
+const MenuSection = ({ title, items }: { title: string; items: MenuItem[] }) => (
+  <div>
+    <div className="text-[10px] tracking-[0.32em] uppercase text-[hsl(43_55%_42%)] font-medium mb-3">
+      {title}
+    </div>
+    <ul className="space-y-0.5">
+      {items.map(({ label, to, Icon }) => (
+        <li key={label}>
+          <SheetClose asChild>
+            <Link
+              to={to}
+              className="group flex items-center gap-3.5 py-2.5 text-[15px] text-foreground/85 hover:text-foreground transition-colors"
+            >
+              <Icon
+                className="h-[18px] w-[18px] text-foreground/60 group-hover:text-[hsl(43_55%_42%)] transition-colors"
+                strokeWidth={1.5}
+              />
+              <span className="flex-1 font-light tracking-wide">{label}</span>
+              <ChevronRight
+                className="h-3.5 w-3.5 text-foreground/25 group-hover:text-[hsl(43_55%_42%)] group-hover:translate-x-0.5 transition-all"
+                strokeWidth={1.5}
+              />
+            </Link>
+          </SheetClose>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
 export const Header = () => {
   const wishCount = useWishlistStore((s) => s.ids.length);
   const [scrolled, setScrolled] = useState(false);
