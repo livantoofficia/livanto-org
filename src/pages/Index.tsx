@@ -8,6 +8,7 @@ import { WhyChoose } from "@/components/home/WhyChoose";
 import { ReferEarn } from "@/components/home/ReferEarn";
 import { Newsletter } from "@/components/home/Newsletter";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
+import { WatchAndShop } from "@/components/home/WatchAndShop";
 
 const Index = () => (
   <>
@@ -27,6 +28,7 @@ const Index = () => (
       reverse
       ctaTo="/shop"
     />
+    <WatchAndShop />
     <ProductRail
       eyebrow="Smart Buys"
       title="Premium Picks Under ₹499"
