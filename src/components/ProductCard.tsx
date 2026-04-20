@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { type ShopifyProduct, formatPrice } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { NotifyMeButton } from "@/components/NotifyMeButton";
 
 interface ProductCardProps {
   product: ShopifyProduct;
@@ -114,18 +115,27 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className={`h-4 w-4 ${isWished ? "fill-accent text-accent" : "text-foreground"}`}
           />
         </button>
-        {/* Quick add */}
-        <button
-          onClick={handleAdd}
-          disabled={!variant?.availableForSale || isLoading}
-          className="absolute bottom-0 inset-x-0 bg-primary text-primary-foreground text-xs uppercase tracking-wider py-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
-        >
-          {isLoading ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <>Quick Add</>
-          )}
-        </button>
+        {/* Quick add / Notify Me */}
+        {variant?.availableForSale ? (
+          <button
+            onClick={handleAdd}
+            disabled={isLoading}
+            className="absolute bottom-0 inset-x-0 bg-primary text-primary-foreground text-xs uppercase tracking-wider py-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {isLoading ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <>Quick Add</>
+            )}
+          </button>
+        ) : (
+          <NotifyMeButton
+            productTitle={p.title}
+            productId={p.id}
+            variantId={variant?.id}
+            variant="card"
+          />
+        )}
       </div>
       <div className="pt-3 pb-1 px-1">
         <h3 className="text-sm font-medium leading-snug line-clamp-2 group-hover:text-accent transition-colors">
