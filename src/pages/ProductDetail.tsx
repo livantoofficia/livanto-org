@@ -153,8 +153,39 @@ const ProductDetail = () => {
     month: "short",
   });
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description?.slice(0, 500) || product.title,
+    image: product.images.edges.map((e) => e.node.url).slice(0, 5),
+    sku: variant?.id,
+    brand: { "@type": "Brand", name: "LIVANTO" },
+    offers: {
+      "@type": "Offer",
+      url: `https://livanto.in/product/${product.handle}`,
+      priceCurrency: variant?.price.currencyCode || "INR",
+      price: variant?.price.amount,
+      availability: variant?.availableForSale
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
+
   return (
     <>
+      <SEO
+        title={`${product.title} — Buy Online`}
+        description={
+          product.description?.slice(0, 160) ||
+          `Shop ${product.title} at LIVANTO. Premium quality, free shipping ₹499+, COD available across India.`
+        }
+        canonical={`/product/${product.handle}`}
+        image={product.images.edges[0]?.node.url}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       {/* Breadcrumbs */}
       <div className="container-luxe pt-6 text-xs text-muted-foreground flex items-center gap-1.5">
         <Link to="/" className="hover:text-accent">Home</Link>
