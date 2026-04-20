@@ -1,11 +1,18 @@
 import { StaticPage } from "@/components/StaticPage";
+import { SEO } from "@/components/SEO";
 
 const About = () => (
-  <StaticPage
-    eyebrow="Our Story"
-    title="Living, beautifully."
-    intro="LIVANTO is a premium lifestyle brand built for the modern Indian home — curating useful, beautifully-designed essentials at honest prices."
-  >
+  <>
+    <SEO
+      title="About LIVANTO — India's Premium Lifestyle Brand"
+      description="Discover the LIVANTO story — a premium lifestyle brand curating beautifully designed kitchen, home and wellness essentials for modern Indian homes."
+      canonical="/about"
+    />
+    <StaticPage
+      eyebrow="Our Story"
+      title="Living, beautifully."
+      intro="LIVANTO is a premium lifestyle brand built for the modern Indian home — curating useful, beautifully-designed essentials at honest prices."
+    >
     <h2>Why we exist</h2>
     <p>
       We started LIVANTO because shopping in India deserved better. Better
@@ -23,7 +30,8 @@ const About = () => (
       Free shipping ₹499+. Cash on Delivery on most pin codes. Easy 7-day
       returns. WhatsApp support, always. We're building a brand for the long
       term — one happy customer at a time.
-    </p>
-  </StaticPage>
+      </p>
+    </StaticPage>
+  </>
 );
 export default About;

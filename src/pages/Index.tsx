@@ -9,9 +9,49 @@ import { ReferEarn } from "@/components/home/ReferEarn";
 import { Newsletter } from "@/components/home/Newsletter";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { WatchAndShop } from "@/components/home/WatchAndShop";
+import { SEO } from "@/components/SEO";
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "LIVANTO",
+      url: "https://livanto.in",
+      logo: "https://livanto.in/og-livanto.jpg",
+      sameAs: [
+        "https://www.facebook.com/shoplivanto",
+        "https://www.instagram.com/shoplivanto",
+        "https://pin.it/ifDiRH2EL",
+      ],
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: "livantoofficial@gmail.com",
+        contactType: "customer support",
+        areaServed: "IN",
+      },
+    },
+    {
+      "@type": "WebSite",
+      url: "https://livanto.in",
+      name: "LIVANTO",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://livanto.in/shop?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ],
+};
 
 const Index = () => (
   <>
+    <SEO
+      title="LIVANTO — Premium Lifestyle & Smart Home Essentials in India"
+      description="Shop premium kitchen, home, wellness & lifestyle essentials at LIVANTO. Free shipping on orders ₹499+, COD available, easy 7-day returns across India."
+      canonical="/"
+      jsonLd={homeJsonLd}
+    />
     <Hero />
     <TrustStrip />
     <Categories />

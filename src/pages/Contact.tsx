@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Facebook } from "lucide-react";
 import { toast } from "sonner";
+import { SEO } from "@/components/SEO";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -24,6 +25,11 @@ const Contact = () => {
 
   return (
     <section className="container-luxe py-12 lg:py-20">
+      <SEO
+        title="Contact LIVANTO — Customer Support, WhatsApp & Email"
+        description="Get in touch with LIVANTO via WhatsApp, email or phone. Premium customer support for orders, returns and product questions, 9am–9pm IST."
+        canonical="/contact"
+      />
       <div className="text-center mb-12">
         <p className="text-[11px] uppercase tracking-[0.3em] text-accent mb-3">✦ We're here to help</p>
         <h1 className="font-display text-4xl lg:text-5xl">Contact Us</h1>

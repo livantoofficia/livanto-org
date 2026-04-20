@@ -1,4 +1,5 @@
 import { StaticPage } from "@/components/StaticPage";
+import { SEO } from "@/components/SEO";
 import {
   Accordion,
   AccordionContent,
@@ -17,16 +18,34 @@ const FAQS = [
   { q: "How do I use a coupon?", a: "Apply your coupon code in the checkout cart — discount appears instantly." },
 ];
 
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const FAQ = () => (
-  <StaticPage eyebrow="Help Center" title="Frequently Asked Questions" intro="Everything you need to know. Can't find an answer? Message us on WhatsApp.">
-    <Accordion type="single" collapsible className="not-prose">
-      {FAQS.map((f, i) => (
-        <AccordionItem key={i} value={`f${i}`}>
-          <AccordionTrigger className="text-left">{f.q}</AccordionTrigger>
-          <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
-        </AccordionItem>
-      ))}
-    </Accordion>
-  </StaticPage>
+  <>
+    <SEO
+      title="FAQ — Shipping, Returns, COD & Order Help | LIVANTO"
+      description="Answers to common questions about LIVANTO orders: shipping, returns, COD, tracking, cancellations and more."
+      canonical="/faq"
+      jsonLd={faqJsonLd}
+    />
+    <StaticPage eyebrow="Help Center" title="Frequently Asked Questions" intro="Everything you need to know. Can't find an answer? Message us on WhatsApp.">
+      <Accordion type="single" collapsible className="not-prose">
+        {FAQS.map((f, i) => (
+          <AccordionItem key={i} value={`f${i}`}>
+            <AccordionTrigger className="text-left">{f.q}</AccordionTrigger>
+            <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </StaticPage>
+  </>
 );
 export default FAQ;
