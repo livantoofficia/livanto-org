@@ -103,6 +103,11 @@ const Shop = () => {
 
   return (
     <>
+      <SEO
+        title={`${title} — Shop ${cat ? title : "Premium Essentials"}`}
+        description={`Shop ${title.toLowerCase()} at LIVANTO — premium quality, free shipping ₹499+, COD available, easy 7-day returns across India.`}
+        canonical={`/shop${cat ? `?cat=${cat}` : ""}`}
+      />
       {/* Page header */}
       <section className="bg-secondary py-12 lg:py-16">
         <div className="container-luxe">
