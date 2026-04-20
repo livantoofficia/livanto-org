@@ -30,7 +30,8 @@ const About = () => (
       Free shipping ₹499+. Cash on Delivery on most pin codes. Easy 7-day
       returns. WhatsApp support, always. We're building a brand for the long
       term — one happy customer at a time.
-    </p>
-  </StaticPage>
+      </p>
+    </StaticPage>
+  </>
 );
 export default About;
