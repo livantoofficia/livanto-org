@@ -17,6 +17,7 @@ import { useWishlistStore } from "@/stores/wishlistStore";
 import { useRecentlyViewedStore } from "@/stores/recentlyViewedStore";
 import { RelatedProducts } from "@/components/RelatedProducts";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
+import { NotifyMeButton } from "@/components/NotifyMeButton";
 import {
   Heart,
   Truck,
@@ -262,34 +263,58 @@ const ProductDetail = () => {
 
           {/* CTAs */}
           <div className="space-y-2.5">
-            <Button
-              onClick={() => handleAdd(false)}
-              disabled={!variant?.availableForSale || isLoading}
-              size="lg"
-              variant="outline"
-              className="w-full h-12 border-foreground text-foreground hover:bg-foreground hover:text-background"
-            >
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add to Bag"}
-            </Button>
-            <div className="flex gap-2">
-              <Button
-                onClick={() => handleAdd(true)}
-                disabled={!variant?.availableForSale || isLoading}
-                size="lg"
-                className="flex-1 h-12 bg-primary hover:bg-primary/90"
-              >
-                Buy Now
-              </Button>
-              <button
-                onClick={() => toggleWish(product.id)}
-                aria-label="Wishlist"
-                className="border border-border h-12 w-12 flex items-center justify-center hover:border-accent transition"
-              >
-                <Heart
-                  className={`h-5 w-5 ${isWished ? "fill-accent text-accent" : ""}`}
-                />
-              </button>
-            </div>
+            {variant?.availableForSale ? (
+              <>
+                <Button
+                  onClick={() => handleAdd(false)}
+                  disabled={isLoading}
+                  size="lg"
+                  variant="outline"
+                  className="w-full h-12 border-foreground text-foreground hover:bg-foreground hover:text-background"
+                >
+                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add to Bag"}
+                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => handleAdd(true)}
+                    disabled={isLoading}
+                    size="lg"
+                    className="flex-1 h-12 bg-primary hover:bg-primary/90"
+                  >
+                    Buy Now
+                  </Button>
+                  <button
+                    onClick={() => toggleWish(product.id)}
+                    aria-label="Wishlist"
+                    className="border border-border h-12 w-12 flex items-center justify-center hover:border-accent transition"
+                  >
+                    <Heart
+                      className={`h-5 w-5 ${isWished ? "fill-accent text-accent" : ""}`}
+                    />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <NotifyMeButton
+                    productTitle={product.title}
+                    productId={product.id}
+                    variantId={variant?.id}
+                    variant="pdp"
+                  />
+                </div>
+                <button
+                  onClick={() => toggleWish(product.id)}
+                  aria-label="Wishlist"
+                  className="border border-border h-12 w-12 flex items-center justify-center hover:border-accent transition"
+                >
+                  <Heart
+                    className={`h-5 w-5 ${isWished ? "fill-accent text-accent" : ""}`}
+                  />
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Trust badges */}
@@ -350,23 +375,32 @@ const ProductDetail = () => {
 
       {/* Sticky mobile CTA */}
       <div className="lg:hidden fixed bottom-[60px] inset-x-0 z-20 bg-background border-t border-border p-3 safe-bottom">
-        <div className="flex gap-2">
-          <Button
-            onClick={() => handleAdd(false)}
-            disabled={!variant?.availableForSale || isLoading}
-            variant="outline"
-            className="flex-1 h-11"
-          >
-            Add to Bag
-          </Button>
-          <Button
-            onClick={() => handleAdd(true)}
-            disabled={!variant?.availableForSale || isLoading}
-            className="flex-1 h-11 bg-primary"
-          >
-            Buy Now
-          </Button>
-        </div>
+        {variant?.availableForSale ? (
+          <div className="flex gap-2">
+            <Button
+              onClick={() => handleAdd(false)}
+              disabled={isLoading}
+              variant="outline"
+              className="flex-1 h-11"
+            >
+              Add to Bag
+            </Button>
+            <Button
+              onClick={() => handleAdd(true)}
+              disabled={isLoading}
+              className="flex-1 h-11 bg-primary"
+            >
+              Buy Now
+            </Button>
+          </div>
+        ) : (
+          <NotifyMeButton
+            productTitle={product.title}
+            productId={product.id}
+            variantId={variant?.id}
+            variant="pdp"
+          />
+        )}
       </div>
 
       {/* Related + recently viewed */}
