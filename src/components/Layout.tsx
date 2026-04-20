@@ -6,9 +6,11 @@ import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { AIChatWidget } from "@/components/AIChatWidget";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
 import { useCartSync } from "@/hooks/useCartSync";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 export const Layout = () => {
   useCartSync();
+  useAnalytics();
   return (
     <div className="min-h-screen flex flex-col">
       <Header />

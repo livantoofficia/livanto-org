@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /cart
+Disallow: /account
+Disallow: /wishlist
+
+Sitemap: https://livanto.in/sitemap.xml
