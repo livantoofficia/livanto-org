@@ -18,6 +18,8 @@ import { useRecentlyViewedStore } from "@/stores/recentlyViewedStore";
 import { RelatedProducts } from "@/components/RelatedProducts";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { NotifyMeButton } from "@/components/NotifyMeButton";
+import { SEO } from "@/components/SEO";
+import { trackAddToCart, trackBeginCheckout, trackViewContent } from "@/lib/analytics";
 import {
   Heart,
   Truck,
@@ -59,6 +61,16 @@ const ProductDetail = () => {
           p.options.forEach((o) => (initial[o.name] = o.values[0]));
           setSelectedOptions(initial);
           trackRecent(p.handle);
+          // Analytics: view item
+          const v = p.variants.edges[0]?.node;
+          if (v) {
+            trackViewContent({
+              id: p.id,
+              name: p.title,
+              price: parseFloat(v.price.amount),
+              currency: v.price.currencyCode,
+            });
+          }
         }
       })
       .finally(() => setLoading(false));
@@ -118,7 +130,16 @@ const ProductDetail = () => {
       quantity: qty,
       selectedOptions: variant.selectedOptions || [],
     });
+    const priceNum = parseFloat(variant.price.amount);
+    trackAddToCart({
+      id: product.id,
+      name: product.title,
+      price: priceNum,
+      currency: variant.price.currencyCode,
+      quantity: qty,
+    });
     if (buyNow) {
+      trackBeginCheckout(priceNum * qty, variant.price.currencyCode);
       const url = useCartStore.getState().getCheckoutUrl();
       if (url) window.open(url, "_blank");
     } else {
