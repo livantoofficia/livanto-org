@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchProducts, formatPrice, type ShopifyProduct } from "@/lib/shopify";
+import { fetchProductsByCollection, formatPrice, type ShopifyProduct } from "@/lib/shopify";
 import { Sparkles } from "lucide-react";
 
 export const BundleDeals = () => {
@@ -8,7 +8,8 @@ export const BundleDeals = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProducts({ first: 6, query: "tag:bundle" })
+    // Synced from Shopify Collection: bundle-save
+    fetchProductsByCollection("bundle-save", { first: 6 })
       .then(setProducts)
       .finally(() => setLoading(false));
   }, []);
@@ -90,7 +91,7 @@ export const BundleDeals = () => {
                   </span>
                 </div>
                 <Link
-                  to="/shop?tag=bundle"
+                  to="/shop?cat=bundle-save"
                   className="inline-block bg-primary text-primary-foreground px-7 h-11 leading-[2.75rem] text-xs uppercase tracking-wider hover:bg-primary/90 transition"
                 >
                   Shop Bundle →

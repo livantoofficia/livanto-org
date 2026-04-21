@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { fetchProductsByCollection, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { Flame } from "lucide-react";
 
@@ -20,12 +20,8 @@ export const FlashSale = () => {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    // Try flash-sale tagged first, then fall back to any best-selling products
-    fetchProducts({ first: 8, query: "tag:flash-sale" })
-      .then(async (res) => {
-        if (res.length > 0) return res;
-        return fetchProducts({ first: 8, sortKey: "BEST_SELLING" });
-      })
+    // Synced from Shopify Collection: "up to 50% off / Flash Sale"
+    fetchProductsByCollection("up-to-50-off-flash-sale", { first: 8 })
       .then(setProducts)
       .finally(() => setLoading(false));
   }, []);
@@ -96,7 +92,7 @@ export const FlashSale = () => {
             </div>
             <div className="text-center mt-6 lg:mt-8">
               <Link
-                to="/shop?tag=flash-sale"
+                to="/shop?cat=flash-sale"
                 className="inline-block border border-accent text-accent px-7 lg:px-8 h-11 lg:h-12 leading-[2.75rem] lg:leading-[3rem] text-[11px] lg:text-xs uppercase tracking-wider hover:bg-accent hover:text-accent-foreground transition"
               >
                 Shop the Flash Sale →

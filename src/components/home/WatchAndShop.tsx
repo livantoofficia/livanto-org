@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Sparkles, Flame } from "lucide-react";
-import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { fetchProductsByCollection, fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 
 const formatINR = (amount: string) =>
   new Intl.NumberFormat("en-IN", {
@@ -21,7 +21,9 @@ export const WatchAndShop = () => {
   const interactionTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    fetchProducts({ first: 6, sortKey: "BEST_SELLING" })
+    // Synced from Shopify Collection: watch-shop (falls back to bestsellers if empty)
+    fetchProductsByCollection("watch-shop", { first: 6 })
+      .then(async (res) => (res.length > 0 ? res : fetchProducts({ first: 6, sortKey: "BEST_SELLING" })))
       .then(setProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));

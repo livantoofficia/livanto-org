@@ -35,23 +35,24 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 
+// Slugs match Shopify Collection handles → products auto-sync from Shopify Admin.
 const CATEGORIES = [
-  { label: "Kitchen & Dining", q: "kitchen", Icon: UtensilsCrossed },
-  { label: "Home Essentials", q: "home", Icon: Home },
-  { label: "Personal Care", q: "personal", Icon: Sparkle },
-  { label: "Fitness & Wellness", q: "fitness", Icon: Dumbbell },
-  { label: "Car & Bike", q: "car", Icon: Car },
-  { label: "Garden & Balcony", q: "garden", Icon: Leaf },
+  { label: "Kitchen & Dining", q: "kitchen-dining", Icon: UtensilsCrossed },
+  { label: "Home Essentials", q: "home-essentials", Icon: Home },
+  { label: "Personal Care", q: "personal-care", Icon: Sparkle },
+  { label: "Fitness & Wellness", q: "fitness-wellness", Icon: Dumbbell },
+  { label: "Car & Bike", q: "car-bike", Icon: Car },
+  { label: "Garden & Balcony", q: "garden-balcony", Icon: Leaf },
   { label: "Electronics", q: "electronics", Icon: Plug },
-  { label: "Trending Deals", q: "trending", Icon: Flame },
+  { label: "Trending Deals", q: "trending-deals", Icon: Flame },
 ];
 
 const SHOP_LINKS = [
   { label: "Shop All", to: "/shop", Icon: ShoppingBag },
-  { label: "New Arrivals", to: "/shop?tag=new", Icon: Sparkles },
-  { label: "Best Sellers", to: "/shop?tag=best-seller", Icon: Flame },
-  { label: "Under ₹499", to: "/shop?tag=under-499", Icon: Tag },
-  { label: "Trending Now", to: "/shop?tag=trending", Icon: TrendingUp },
+  { label: "New Arrivals", to: "/shop?cat=new-arrivals", Icon: Sparkles },
+  { label: "Best Sellers", to: "/shop?cat=best-sellers", Icon: Flame },
+  { label: "Under ₹499", to: "/shop?cat=under-499", Icon: Tag },
+  { label: "Trending Now", to: "/shop?cat=trending-now", Icon: TrendingUp },
 ];
 
 const HELP_LINKS = [
