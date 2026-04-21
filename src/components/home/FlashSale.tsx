@@ -20,8 +20,8 @@ export const FlashSale = () => {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    // Synced from Shopify Collection: "up to 50% off / Flash Sale"
-    fetchProductsByCollection("up-to-50-off-flash-sale", { first: 8 })
+    // Synced from Shopify Collection: flash-sale
+    fetchProductsByCollection("flash-sale", { first: 8 })
       .then(setProducts)
       .finally(() => setLoading(false));
   }, []);
