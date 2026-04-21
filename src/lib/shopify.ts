@@ -81,6 +81,22 @@ const PRODUCT_FIELDS = `
   priceRange { minVariantPrice { amount currencyCode } }
   compareAtPriceRange { minVariantPrice { amount currencyCode } }
   images(first: 8) { edges { node { url altText } } }
+  media(first: 6) {
+    edges {
+      node {
+        mediaContentType
+        ... on Video {
+          sources { url mimeType format }
+          previewImage { url altText }
+        }
+        ... on ExternalVideo {
+          host
+          embedUrl
+          previewImage { url altText }
+        }
+      }
+    }
+  }
   variants(first: 25) {
     edges {
       node {
