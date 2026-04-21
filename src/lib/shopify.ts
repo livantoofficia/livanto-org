@@ -23,6 +23,17 @@ export interface ShopifyProduct {
     images: {
       edges: Array<{ node: { url: string; altText: string | null } }>;
     };
+    media?: {
+      edges: Array<{
+        node: {
+          mediaContentType: "VIDEO" | "EXTERNAL_VIDEO" | "IMAGE" | "MODEL_3D";
+          sources?: Array<{ url: string; mimeType: string; format: string }>;
+          host?: "YOUTUBE" | "VIMEO";
+          embedUrl?: string;
+          previewImage?: { url: string; altText: string | null };
+        };
+      }>;
+    };
     variants: {
       edges: Array<{
         node: {
