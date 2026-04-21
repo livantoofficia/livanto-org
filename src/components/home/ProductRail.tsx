@@ -37,9 +37,16 @@ export const ProductRail = ({
   tag,
   collection,
   layout = "grid",
+  maxPrice,
 }: Props) => {
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [allProducts, setAllProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const products = maxPrice
+    ? allProducts.filter(
+        (p) => parseFloat(p.node.priceRange.minVariantPrice.amount) <= maxPrice
+      )
+    : allProducts;
 
   const finalQuery = [tag ? `tag:${tag}` : null, query].filter(Boolean).join(" ") || undefined;
 
