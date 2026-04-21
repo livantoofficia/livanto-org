@@ -22,6 +22,8 @@ interface Props {
    * Mobile layout: 'carousel' = horizontal swipe, 'grid' = 2-col grid.
    */
   layout?: "carousel" | "grid";
+  /** Optional client-side price ceiling (INR). Filters out variants above this price. */
+  maxPrice?: number;
 }
 
 export const ProductRail = ({
@@ -35,9 +37,16 @@ export const ProductRail = ({
   tag,
   collection,
   layout = "grid",
+  maxPrice,
 }: Props) => {
-  const [products, setProducts] = useState<ShopifyProduct[]>([]);
+  const [allProducts, setAllProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const products = maxPrice
+    ? allProducts.filter(
+        (p) => parseFloat(p.node.priceRange.minVariantPrice.amount) <= maxPrice
+      )
+    : allProducts;
 
   const finalQuery = [tag ? `tag:${tag}` : null, query].filter(Boolean).join(" ") || undefined;
 
@@ -56,7 +65,7 @@ export const ProductRail = ({
         })
       : fetchProducts({ first, query: finalQuery, sortKey, reverse });
     fetcher
-      .then(setProducts)
+      .then(setAllProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [first, finalQuery, sortKey, reverse, collection]);

@@ -73,9 +73,12 @@ const Index = () => (
       first={6}
       layout="grid"
     />
-    <WatchAndShop />
-    {/* Flash Sale — synced from Shopify Collection: up-to-50-off-flash-sale */}
+    {/* Flash Sale — synced from Shopify Collection: flash-sale */}
     <FlashSale />
+    {/* Bundle Offers — synced from Shopify Collection: bundle-save */}
+    <BundleDeals />
+    {/* Watch & Shop — video-based product reels from Shopify Collection: watch-shop */}
+    <WatchAndShop />
     {/* New Arrivals — synced from Shopify Collection: new-arrivals */}
     <ProductRail
       eyebrow="Just In"
@@ -85,17 +88,16 @@ const Index = () => (
       first={6}
       layout="grid"
     />
-    {/* Under ₹499 — synced from Shopify Collection: under-499 */}
+    {/* Under ₹499 — synced from Shopify Collection: under-499 (price-filtered safety net) */}
     <ProductRail
       eyebrow="Budget Picks"
       title="Under ₹499"
       collection="under-499"
       ctaTo="/shop?cat=under-499"
-      first={6}
+      first={8}
       layout="carousel"
+      maxPrice={499}
     />
-    {/* Bundle Offers — synced from Shopify Collection: bundle-save */}
-    <BundleDeals />
     <WhyChoose />
     <ReviewsSection />
     <ReferEarn />
