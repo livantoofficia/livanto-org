@@ -22,6 +22,8 @@ interface Props {
    * Mobile layout: 'carousel' = horizontal swipe, 'grid' = 2-col grid.
    */
   layout?: "carousel" | "grid";
+  /** Optional client-side price ceiling (INR). Filters out variants above this price. */
+  maxPrice?: number;
 }
 
 export const ProductRail = ({
