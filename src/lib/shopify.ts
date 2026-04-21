@@ -110,6 +110,28 @@ export const PRODUCT_BY_HANDLE_QUERY = `
   }
 `;
 
+export const COLLECTION_PRODUCTS_QUERY = `
+  query GetCollectionProducts($handle: String!, $first: Int!, $sortKey: ProductCollectionSortKeys, $reverse: Boolean) {
+    collection(handle: $handle) {
+      id
+      title
+      handle
+      description
+      products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+        edges { node { ${PRODUCT_FIELDS} } }
+      }
+    }
+  }
+`;
+
+export const COLLECTIONS_QUERY = `
+  query GetCollections($first: Int!) {
+    collections(first: $first) {
+      edges { node { id handle title description } }
+    }
+  }
+`;
+
 export async function fetchProducts(opts?: {
   first?: number;
   query?: string;
@@ -135,6 +157,40 @@ export async function fetchProductByHandle(
     { handle }
   );
   return result?.data?.product ?? null;
+}
+
+/**
+ * Fetch products inside a Shopify Collection by its handle.
+ * Collection handles (created in Shopify Admin → Products → Collections):
+ *   shop-all · new-arrivals · best-sellers · under-499 · trending-now
+ *   kitchen-dining · home-essentials · personal-care · fitness-wellness
+ *   car-bike · garden-balcony · electronics · trending-deals
+ *   watch-shop · up-to-50-off-flash-sale · bundle-save · gifts
+ */
+export async function fetchProductsByCollection(
+  handle: string,
+  opts?: {
+    first?: number;
+    sortKey?: "BEST_SELLING" | "CREATED" | "PRICE" | "TITLE" | "MANUAL" | "COLLECTION_DEFAULT";
+    reverse?: boolean;
+  }
+): Promise<ShopifyProduct[]> {
+  const result = await storefrontApiRequest<{
+    collection: { products: { edges: ShopifyProduct[] } } | null;
+  }>(COLLECTION_PRODUCTS_QUERY, {
+    handle,
+    first: opts?.first ?? 12,
+    sortKey: opts?.sortKey ?? "COLLECTION_DEFAULT",
+    reverse: opts?.reverse ?? false,
+  });
+  return result?.data?.collection?.products?.edges ?? [];
+}
+
+export async function fetchCollections(first = 50) {
+  const result = await storefrontApiRequest<{
+    collections: { edges: Array<{ node: { id: string; handle: string; title: string; description: string } }> };
+  }>(COLLECTIONS_QUERY, { first });
+  return result?.data?.collections?.edges?.map((e) => e.node) ?? [];
 }
 
 export function formatPrice(amount: string | number, currencyCode = "INR") {
