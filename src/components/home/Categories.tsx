@@ -8,15 +8,16 @@ import garden from "@/assets/cat-garden.jpg";
 import electronics from "@/assets/cat-electronics.jpg";
 import trending from "@/assets/cat-trending.jpg";
 
+// `q` values are Shopify Collection handles — products auto-sync from Admin.
 const cats = [
-  { label: "Kitchen & Dining", q: "kitchen", img: kitchen },
-  { label: "Home Essentials", q: "home", img: home },
-  { label: "Personal Care", q: "personal", img: personal },
-  { label: "Fitness & Wellness", q: "fitness", img: fitness },
-  { label: "Car & Bike", q: "car", img: car },
-  { label: "Garden & Balcony", q: "garden", img: garden },
+  { label: "Kitchen & Dining", q: "kitchen-dining", img: kitchen },
+  { label: "Home Essentials", q: "home-essentials", img: home },
+  { label: "Personal Care", q: "personal-care", img: personal },
+  { label: "Fitness & Wellness", q: "fitness-wellness", img: fitness },
+  { label: "Car & Bike", q: "car-bike", img: car },
+  { label: "Garden & Balcony", q: "garden-balcony", img: garden },
   { label: "Electronics", q: "electronics", img: electronics },
-  { label: "Trending Deals", q: "trending", img: trending },
+  { label: "Trending Deals", q: "trending-deals", img: trending },
 ];
 
 export const Categories = () => (
