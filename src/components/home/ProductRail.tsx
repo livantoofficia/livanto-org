@@ -65,7 +65,7 @@ export const ProductRail = ({
         })
       : fetchProducts({ first, query: finalQuery, sortKey, reverse });
     fetcher
-      .then(setProducts)
+      .then(setAllProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [first, finalQuery, sortKey, reverse, collection]);
