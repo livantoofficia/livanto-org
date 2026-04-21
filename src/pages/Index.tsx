@@ -55,39 +55,46 @@ const Index = () => (
     <Hero />
     <TrustStrip />
     <Categories />
-    {/* Best Sellers — mobile horizontal swipe carousel */}
+    {/* Best Sellers — synced from Shopify Collection: best-sellers */}
     <ProductRail
       eyebrow="Most Loved"
       title="Best Sellers"
-      sortKey="BEST_SELLING"
-      ctaTo="/shop"
+      collection="best-sellers"
+      ctaTo="/shop?cat=best-sellers"
       first={8}
       layout="carousel"
     />
-    {/* Trending Now — 2-col grid, max 6 */}
+    {/* Trending Now — synced from Shopify Collection: trending-now */}
     <ProductRail
       eyebrow="Viral Right Now"
       title="Trending Now"
-      sortKey="BEST_SELLING"
-      reverse
-      ctaTo="/shop"
+      collection="trending-now"
+      ctaTo="/shop?cat=trending-now"
       first={6}
       layout="grid"
     />
     <WatchAndShop />
-    {/* Flash Sale — mobile carousel */}
+    {/* Flash Sale — synced from Shopify Collection: up-to-50-off-flash-sale */}
     <FlashSale />
-    {/* New Arrivals — 2-col grid */}
+    {/* New Arrivals — synced from Shopify Collection: new-arrivals */}
     <ProductRail
       eyebrow="Just In"
       title="New Arrivals"
-      sortKey="CREATED_AT"
-      reverse
-      ctaTo="/shop"
+      collection="new-arrivals"
+      ctaTo="/shop?cat=new-arrivals"
       first={6}
       layout="grid"
     />
-    {/* Bundle Offers — featured full-width card */}
+    {/* Under ₹499 — synced from Shopify Collection: under-499 */}
+    <ProductRail
+      eyebrow="Budget Picks"
+      title="Under ₹499"
+      collection="under-499"
+      ctaTo="/shop?cat=under-499"
+      first={6}
+      layout="carousel"
+    />
+    {/* Bundle Offers — synced from Shopify Collection: bundle-save */}
     <BundleDeals />
     <WhyChoose />
     <ReviewsSection />
