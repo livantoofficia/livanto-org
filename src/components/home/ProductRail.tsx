@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { fetchProducts, fetchProductsByCollection, type ShopifyProduct } from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 
 interface Props {
@@ -11,14 +11,15 @@ interface Props {
   reverse?: boolean;
   ctaTo?: string;
   first?: number;
-  /**
-   * Filter to products with this Shopify tag (e.g. 'flash-sale', 'under-499', 'bundle').
-   * Combined with `query` if both are provided.
-   */
+  /** Filter by Shopify tag (legacy fallback). */
   tag?: string;
   /**
-   * Mobile layout: 'carousel' = horizontal swipe (2.2 cards visible),
-   * 'grid' = 2-col grid. Desktop always uses grid.
+   * Shopify Collection handle — preferred. When provided, products come
+   * directly from that Collection in Shopify Admin (auto-syncs).
+   */
+  collection?: string;
+  /**
+   * Mobile layout: 'carousel' = horizontal swipe, 'grid' = 2-col grid.
    */
   layout?: "carousel" | "grid";
 }
@@ -32,6 +33,7 @@ export const ProductRail = ({
   ctaTo = "/shop",
   first = 8,
   tag,
+  collection,
   layout = "grid",
 }: Props) => {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -40,11 +42,24 @@ export const ProductRail = ({
   const finalQuery = [tag ? `tag:${tag}` : null, query].filter(Boolean).join(" ") || undefined;
 
   useEffect(() => {
-    fetchProducts({ first, query: finalQuery, sortKey, reverse })
+    setLoading(true);
+    const fetcher = collection
+      ? fetchProductsByCollection(collection, {
+          first,
+          sortKey:
+            sortKey === "CREATED_AT"
+              ? "CREATED"
+              : sortKey === "BEST_SELLING"
+              ? "BEST_SELLING"
+              : "COLLECTION_DEFAULT",
+          reverse,
+        })
+      : fetchProducts({ first, query: finalQuery, sortKey, reverse });
+    fetcher
       .then(setProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
-  }, [first, finalQuery, sortKey, reverse]);
+  }, [first, finalQuery, sortKey, reverse, collection]);
 
   return (
     <section className="py-10 lg:py-20">
