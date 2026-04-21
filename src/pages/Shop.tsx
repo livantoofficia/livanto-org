@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import {
+  fetchProducts,
+  fetchProductsByCollection,
+  type ShopifyProduct,
+} from "@/lib/shopify";
 import { ProductCard } from "@/components/ProductCard";
 import { SEO } from "@/components/SEO";
 import {
@@ -14,40 +18,43 @@ import { SlidersHorizontal } from "lucide-react";
 
 const SORTS: Record<
   string,
-  { label: string; sortKey: any; reverse?: boolean }
+  { label: string; sortKey: any; collectionSortKey: any; reverse?: boolean }
 > = {
-  trending: { label: "Trending", sortKey: "BEST_SELLING" },
-  latest: { label: "Latest", sortKey: "CREATED_AT", reverse: true },
-  "price-asc": { label: "Price: Low → High", sortKey: "PRICE" },
-  "price-desc": { label: "Price: High → Low", sortKey: "PRICE", reverse: true },
-  title: { label: "Alphabetical", sortKey: "TITLE" },
+  trending: { label: "Trending", sortKey: "BEST_SELLING", collectionSortKey: "BEST_SELLING" },
+  latest: { label: "Latest", sortKey: "CREATED_AT", collectionSortKey: "CREATED", reverse: true },
+  "price-asc": { label: "Price: Low → High", sortKey: "PRICE", collectionSortKey: "PRICE" },
+  "price-desc": { label: "Price: High → Low", sortKey: "PRICE", collectionSortKey: "PRICE", reverse: true },
+  title: { label: "Alphabetical", sortKey: "TITLE", collectionSortKey: "TITLE" },
 };
 
-// Map URL "cat" slugs to Shopify product_type values for accurate filtering.
-const CAT_TO_TYPE: Record<string, string> = {
-  kitchen: "Kitchen & Dining",
-  home: "Home Essentials",
-  personal: "Personal Care",
-  fitness: "Fitness & Wellness",
-  car: "Car & Bike",
-  garden: "Garden & Balcony",
-  electronics: "Electronics Accessories",
-};
-
-const TAG_LABELS: Record<string, string> = {
-  "best-seller": "Best Sellers",
-  trending: "Trending Deals",
-  "flash-sale": "Flash Sale",
-  "under-499": "Under ₹499",
-  "new-arrival": "New Arrivals",
-  bundle: "Bundle & Save",
-  gift: "Gifts",
+/**
+ * URL `?cat=` slug → Shopify Collection handle + display title.
+ * Adding/editing products in these collections in Shopify Admin
+ * automatically updates these pages — no code change needed.
+ */
+const COLLECTIONS: Record<string, { handle: string; title: string }> = {
+  "shop-all": { handle: "shop-all", title: "Shop All" },
+  "new-arrivals": { handle: "new-arrivals", title: "New Arrivals" },
+  "best-sellers": { handle: "best-sellers", title: "Best Sellers" },
+  "under-499": { handle: "under-499", title: "Under ₹499" },
+  "trending-now": { handle: "trending-now", title: "Trending Now" },
+  "kitchen-dining": { handle: "kitchen-dining", title: "Kitchen & Dining" },
+  "home-essentials": { handle: "home-essentials", title: "Home Essentials" },
+  "personal-care": { handle: "personal-care", title: "Personal Care" },
+  "fitness-wellness": { handle: "fitness-wellness", title: "Fitness & Wellness" },
+  "car-bike": { handle: "car-bike", title: "Car & Bike" },
+  "garden-balcony": { handle: "garden-balcony", title: "Garden & Balcony" },
+  electronics: { handle: "electronics", title: "Electronics" },
+  "trending-deals": { handle: "trending-deals", title: "Trending Deals" },
+  "watch-shop": { handle: "watch-shop", title: "Watch & Shop" },
+  "flash-sale": { handle: "up-to-50-off-flash-sale", title: "Flash Sale — Up to 50% Off" },
+  "bundle-save": { handle: "bundle-save", title: "Bundle & Save" },
+  gifts: { handle: "gifts", title: "Gifts" },
 };
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const cat = searchParams.get("cat") ?? "";
-  const tag = searchParams.get("tag") ?? "";
   const q = searchParams.get("q") ?? "";
   const sort = searchParams.get("sort") ?? "trending";
 
@@ -55,30 +62,28 @@ const Shop = () => {
   const [loading, setLoading] = useState(true);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
 
-  const queryStr = useMemo(() => {
-    const parts: string[] = [];
-    if (q) parts.push(q);
-    if (tag) parts.push(`tag:${tag}`);
-    if (cat) {
-      const type = CAT_TO_TYPE[cat];
-      parts.push(type ? `product_type:"${type}"` : cat);
-    }
-    return parts.join(" ") || undefined;
-  }, [q, cat, tag]);
+  const collection = COLLECTIONS[cat];
 
   useEffect(() => {
     setLoading(true);
     const cfg = SORTS[sort] ?? SORTS.trending;
-    fetchProducts({
-      first: 48,
-      query: queryStr,
-      sortKey: cfg.sortKey,
-      reverse: cfg.reverse,
-    })
+    const fetcher = collection
+      ? fetchProductsByCollection(collection.handle, {
+          first: 48,
+          sortKey: cfg.collectionSortKey,
+          reverse: cfg.reverse,
+        })
+      : fetchProducts({
+          first: 48,
+          query: q || undefined,
+          sortKey: cfg.sortKey,
+          reverse: cfg.reverse,
+        });
+    fetcher
       .then(setProducts)
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
-  }, [queryStr, sort]);
+  }, [cat, q, sort, collection]);
 
   const filtered = useMemo(() => {
     if (!maxPrice) return products;
@@ -95,10 +100,8 @@ const Shop = () => {
 
   const title = q
     ? `Search: "${q}"`
-    : tag
-    ? TAG_LABELS[tag] ?? tag
-    : cat
-    ? CAT_TO_TYPE[cat] ?? cat[0].toUpperCase() + cat.slice(1)
+    : collection
+    ? collection.title
     : "All Products";
 
   return (
