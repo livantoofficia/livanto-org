@@ -14,7 +14,195 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      addresses: {
+        Row: {
+          city: string
+          country: string
+          created_at: string
+          full_name: string
+          id: string
+          is_default: boolean
+          label: string | null
+          line1: string
+          line2: string | null
+          phone: string
+          pincode: string
+          state: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          country?: string
+          created_at?: string
+          full_name: string
+          id?: string
+          is_default?: boolean
+          label?: string | null
+          line1: string
+          line2?: string | null
+          phone: string
+          pincode: string
+          state: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          country?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          is_default?: boolean
+          label?: string | null
+          line1?: string
+          line2?: string | null
+          phone?: string
+          pincode?: string
+          state?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          currency: string | null
+          id: string
+          order_number: string | null
+          placed_at: string
+          shopify_order_id: string | null
+          status: string | null
+          total: number | null
+          user_id: string
+        }
+        Insert: {
+          currency?: string | null
+          id?: string
+          order_number?: string | null
+          placed_at?: string
+          shopify_order_id?: string | null
+          status?: string | null
+          total?: number | null
+          user_id: string
+        }
+        Update: {
+          currency?: string | null
+          id?: string
+          order_number?: string | null
+          placed_at?: string
+          shopify_order_id?: string | null
+          status?: string | null
+          total?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          referral_code: string | null
+          referred_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      recently_viewed: {
+        Row: {
+          id: string
+          product_handle: string
+          user_id: string
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          product_handle: string
+          user_id: string
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          product_handle?: string
+          user_id?: string
+          viewed_at?: string
+        }
+        Relationships: []
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wishlist_items: {
+        Row: {
+          created_at: string
+          id: string
+          product_handle: string
+          product_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_handle: string
+          product_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_handle?: string
+          product_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
