@@ -179,7 +179,7 @@ export const CartDrawer = () => {
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground -mt-2">
-                Taxes & shipping calculated at checkout
+                Shipping calculated at checkout · No additional taxes
               </p>
               <Button
                 onClick={handleCheckout}

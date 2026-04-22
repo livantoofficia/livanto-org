@@ -258,7 +258,7 @@ const ProductDetail = () => {
             )}
           </div>
           <p className="text-xs text-trust font-medium">
-            Inclusive of all taxes · Free shipping ₹499+
+            All-inclusive price · Free shipping on orders ₹499+
           </p>
 
           {(product.tags ?? []).map((t) => t.toLowerCase()).includes("flash-sale") && (
