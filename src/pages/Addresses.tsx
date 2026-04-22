@@ -66,9 +66,22 @@ const Addresses = () => {
       return;
     }
     setSaving(true);
+    const payload = {
+      label: parsed.data.label ?? null,
+      full_name: parsed.data.full_name,
+      phone: parsed.data.phone,
+      line1: parsed.data.line1,
+      line2: parsed.data.line2 ?? null,
+      city: parsed.data.city,
+      state: parsed.data.state,
+      pincode: parsed.data.pincode,
+      user_id: user.id,
+      country: "India",
+      is_default: list.length === 0,
+    };
     const { data, error } = await supabase
       .from("addresses")
-      .insert({ ...parsed.data, user_id: user.id, country: "India", is_default: list.length === 0 })
+      .insert(payload)
       .select()
       .single();
     setSaving(false);

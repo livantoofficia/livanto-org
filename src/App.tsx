@@ -12,6 +12,10 @@ import ProductDetail from "./pages/ProductDetail.tsx";
 import Cart from "./pages/Cart.tsx";
 import Wishlist from "./pages/Wishlist.tsx";
 import Account from "./pages/Account.tsx";
+import Addresses from "./pages/Addresses.tsx";
+import Wallet from "./pages/Wallet.tsx";
+import ReferEarn from "./pages/ReferEarn.tsx";
+import { AuthProvider } from "./hooks/useAuth";
 import TrackOrder from "./pages/TrackOrder.tsx";
 import Contact from "./pages/Contact.tsx";
 import About from "./pages/About.tsx";
@@ -24,6 +28,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
+      <AuthProvider>
       <TooltipProvider>
         <BrandLoader />
         <Toaster />
@@ -37,6 +42,9 @@ const App = () => (
               <Route path="/cart" element={<Cart />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/account/addresses" element={<Addresses />} />
+              <Route path="/account/wallet" element={<Wallet />} />
+              <Route path="/account/refer" element={<ReferEarn />} />
               <Route path="/track-order" element={<TrackOrder />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />
@@ -50,6 +58,7 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );
